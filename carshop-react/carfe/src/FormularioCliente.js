@@ -6,7 +6,13 @@ import ModalConfirmacion from './ModalConfirmacion'
 import React, { useContext , useState  } from 'react';
 //contexto
 import { ContextoCliente } from './ContextoCliente';
-
+import AWS from 'aws-sdk'
+AWS.config.update({
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+  secretAccessKey:process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+  region: 'us-east-1',
+  sessionToken: process.env.REACT_APP_AWS_SESSION_TOKEN
+});
 
 
 function FormularioCliente({mostrarFormularioVehiculos}){

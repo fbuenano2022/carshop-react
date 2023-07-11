@@ -8,9 +8,15 @@ import FormularioVehiculo from './FormularioVehiculo';
 import FormularioServicio from './FormularioServicio';
 import FomularioOrdenTrabajo from './FomularioOrdenTrabajo';
 import React, { useState } from 'react';
-
+import { CSSTransition } from 'react-transition-group';
 import { ClienteProvider } from './ContextoCliente';
-
+import AWS from 'aws-sdk'
+AWS.config.update({
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+  secretAccessKey:process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+  region: 'us-east-1',
+  sessionToken: process.env.REACT_APP_AWS_SESSION_TOKEN
+});
 
 //import React, { useState } from 'react';
 
@@ -72,13 +78,28 @@ function App() {
       
         <Header  estadoCliente={mostrarFormularioCliente} mostrarFormularioCliente={toggleMostrarFormulario} />
           
-             {mostrarFormularioCliente && <FormularioCliente mostrarFormularioVehiculos={toggleMostrarFormularioVehiculos}/>} 
-          
-            {mostrarFormularioVehiculo && <FormularioVehiculo mostrarFormularioServicios={toggleMostrarFormularioServicios} />}
-
-            {mostrarFormularioServicios && <FormularioServicio mostrarOrdenTrabajo = {toggleMostrarOrdenTrabajo} />}    
-
-            {mostrarOrdenTrabajo && <FomularioOrdenTrabajo  />}    
+        <CSSTransition in={mostrarFormularioCliente} timeout={500} classNames="fade">
+             <div>
+             {<FormularioCliente mostrarFormularioVehiculos={toggleMostrarFormularioVehiculos}/>} 
+             </div>
+             
+         </CSSTransition>
+         <CSSTransition in={mostrarFormularioVehiculo} timeout={500} classNames="fade">
+            <div>
+            {<FormularioVehiculo mostrarFormularioServicios={toggleMostrarFormularioServicios} />}
+            </div>
+         </CSSTransition>
+         <CSSTransition in={mostrarFormularioServicios} timeout={500} classNames="fade">
+            <div>
+            {<FormularioServicio mostrarOrdenTrabajo = {toggleMostrarOrdenTrabajo} />}    
+            </div>
+            </CSSTransition>
+          <CSSTransition in={mostrarOrdenTrabajo} timeout={500} classNames="fade">
+          <FomularioOrdenTrabajo />
+            <div>
+            {<FomularioOrdenTrabajo  />}   
+            </div>
+            </CSSTransition> 
            {/*  {formularioActual === 'cliente' && (
               <FormularioCliente mostrarFormularioVehiculos={handlerMostrarFormularioVehiculos} />
                 )}

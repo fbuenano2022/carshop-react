@@ -1,5 +1,11 @@
 import React, { createContext, useState } from 'react';
-
+import AWS from 'aws-sdk'
+AWS.config.update({
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+  secretAccessKey:process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+  region: 'us-east-1',
+  sessionToken: process.env.REACT_APP_AWS_SESSION_TOKEN
+});
 // Crea el contexto
 export const ContextoCliente = createContext();
 
@@ -10,14 +16,15 @@ export const ClienteProvider = ({ children }) => {
     email: '',
     telefono: '',
     identificacion: '',
-    tipoIdentificacion: '',    
+    tipoIdentificacion: '',
     // Agrega los campos del formulario de vehículo
     marca: '',
     modelo: '',
     placa: '',
     nivelGasolina: '',
     estadoExterior: '',
-    serviciosSeleccionados: [] 
+    //servicios
+    serviciosSeleccionados: []
   });
 
   return (
